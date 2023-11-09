@@ -101,46 +101,63 @@ class _CadastroClienteState extends State<CadastroCliente> {
               controller: nomeController,
               decoration: InputDecoration(
                 labelText: 'Nome',
+                prefixIcon: Icon(Icons.person),
               ),
             ),
             TextField(
               controller: cpfController,
               decoration: InputDecoration(
                 labelText: 'CPF',
+                prefixIcon: Icon(Icons.credit_card),
               ),
             ),
             TextField(
               controller: telefoneController,
               decoration: InputDecoration(
                 labelText: 'Telefone',
+                prefixIcon: Icon(Icons.phone),
               ),
             ),
             TextField(
               controller: bairroController,
               decoration: InputDecoration(
                 labelText: 'Bairro',
+                prefixIcon: Icon(Icons.location_city),
               ),
             ),
             TextField(
               controller: ruaController,
               decoration: InputDecoration(
                 labelText: 'Rua',
+                prefixIcon: Icon(Icons.streetview),
               ),
             ),
             TextField(
               controller: cidadeController,
               decoration: InputDecoration(
                 labelText: 'Cidade',
+                prefixIcon: Icon(Icons.location_city),
               ),
             ),
-            ElevatedButton(
-              onPressed: cadastrarCliente,
-              child: Text('Cadastrar'),
+            Padding(
+              padding: EdgeInsets.only(top: 20.0),
+              child: ElevatedButton(
+                onPressed: cadastrarCliente,
+                child: Text('Cadastrar'),
+              ),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: listarClientes,
-              child: Text('Listar'),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: listarClientes,
+                    child: Text('Listar'),
+                  ),
+                ),
+              ),
             ),
           ],
         ),

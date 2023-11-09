@@ -71,28 +71,42 @@ class _CadastroCarroState extends State<CadastroCarro> {
               controller: modeloController,
               decoration: InputDecoration(
                 labelText: 'Modelo',
+                prefixIcon: Icon(Icons.directions_car),
               ),
             ),
             TextField(
               controller: placaController,
               decoration: InputDecoration(
                 labelText: 'Placa',
+                  prefixIcon: Icon(Icons.confirmation_number),
               ),
             ),
             TextField(
               controller: corController,
               decoration: InputDecoration(
                 labelText: 'Cor',
+                 prefixIcon: Icon(Icons.color_lens),
               ),
             ),
-            ElevatedButton(
-              onPressed: cadastrarCarro,
-              child: Text('Cadastrar'),
+            Padding(
+              padding: EdgeInsets.only(top: 20.0),
+              child: ElevatedButton(
+                onPressed: cadastrarCarro,
+                child: Text('Cadastrar'),
+              ),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: listarCarros,
-              child: Text('Listar'),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: listarCarros,
+                    child: Text('Listar'),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
