@@ -78,42 +78,28 @@ class _CadastroFuncionarioState extends State<CadastroFuncionario> {
               controller: nomeController,
               decoration: InputDecoration(
                 labelText: 'Nome',
-                prefixIcon: Icon(Icons.person), // Ícone para o campo de nome
               ),
             ),
             TextField(
               controller: cpfController,
               decoration: InputDecoration(
                 labelText: 'CPF',
-                prefixIcon: Icon(Icons.credit_card), // Ícone para o campo de CPF
               ),
             ),
             TextField(
               controller: telefoneController,
               decoration: InputDecoration(
                 labelText: 'Telefone',
-                prefixIcon: Icon(Icons.phone), // Ícone para o campo de telefone
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 20.0),
-              child: ElevatedButton(
-                onPressed: cadastrarFuncionario,
-                child: Text('Cadastrar'),
-              ),
+            ElevatedButton(
+              onPressed: cadastrarFuncionario,
+              child: Text('Cadastrar'),
             ),
             SizedBox(height: 20),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: listarFuncionarios,
-                    child: Text('Listar'),
-                  ),
-                ),
-              ),
+            ElevatedButton(
+              onPressed: listarFuncionarios,
+              child: Text('Listar'),
             ),
           ],
         ),

@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 
 class TipoServico {
   String nome;
-  String descricao; // Adicione a descrição do tipo de serviço
+  String descricao; 
   double valor;
 
   TipoServico({required this.nome, required this.descricao, required this.valor});
 }
-
-// TESTEEEEEE
 
 class CadastroTipoServico extends StatefulWidget {
   @override
@@ -17,14 +15,14 @@ class CadastroTipoServico extends StatefulWidget {
 
 class _CadastroTipoServicoState extends State<CadastroTipoServico> {
   TextEditingController nomeController = TextEditingController();
-  TextEditingController descricaoController = TextEditingController(); // Controlador para a descrição
+  TextEditingController descricaoController = TextEditingController(); 
   TextEditingController valorController = TextEditingController();
 
   List<TipoServico> tiposServico = [];
 
   void cadastrarTipoServico() {
     String nome = nomeController.text;
-    String descricao = descricaoController.text; // Obtenha a descrição
+    String descricao = descricaoController.text; 
     double valor = double.parse(valorController.text);
 
     TipoServico novoTipoServico = TipoServico(nome: nome, descricao: descricao, valor: valor);
@@ -34,7 +32,7 @@ class _CadastroTipoServicoState extends State<CadastroTipoServico> {
     });
 
     nomeController.clear();
-    descricaoController.clear(); // Limpe o campo de descrição
+    descricaoController.clear(); 
     valorController.clear();
   }
 
@@ -79,7 +77,7 @@ class _CadastroTipoServicoState extends State<CadastroTipoServico> {
             TextField(
               controller: descricaoController,
               decoration: InputDecoration(
-                labelText: 'Descrição', // Campo de descrição
+                labelText: 'Descrição', 
               ),
             ),
             TextField(
