@@ -101,14 +101,25 @@ class _CadastroOrdemServicoState extends State<CadastroOrdemServico> {
                 labelText: 'Serviços (separados por vírgula)',
               ),
             ),
-            ElevatedButton(
-              onPressed: cadastrarOrdemServico,
-              child: Text('Cadastrar'),
+            Padding(
+              padding: EdgeInsets.only(top: 20.0),
+              child: ElevatedButton(
+                onPressed: cadastrarOrdemServico,
+                child: Text('Cadastrar'),
+              ),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: listarOrdensServico,
-              child: Text('Listar'),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: listarOrdensServico,
+                    child: Text('Listar'),
+                  ),
+                ),
+              ),
             ),
           ],
         ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:primeiro_app/cadastro_ordem_servico.dart';
-import 'package:primeiro_app/cadastro_tipo_servico.dart';
-import 'package:primeiro_app/carro.dart';
-import 'package:primeiro_app/cliente.dart';
-import 'package:primeiro_app/funcionario.dart';
+import 'package:primeiro_app/model/cadastro_ordem_servico.dart';
+import 'package:primeiro_app/model/cadastro_tipo_servico.dart';
+import 'package:primeiro_app/model/carro.dart';
+import 'package:primeiro_app/model/cliente.dart';
+import 'package:primeiro_app/model/funcionario.dart';
 
 
 
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sistema de Cadastro'),
+        title: Text('Sistema de Lava Jato'),
       ),
       body: Center(
         child: Column(
