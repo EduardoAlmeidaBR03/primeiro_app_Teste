@@ -1,123 +1,29 @@
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class Funcionario {
+  String id;
   String nome;
-  int cpf;
-  int numeroTelefone;
-  Funcionario({required this.nome, required this.cpf, required this.numeroTelefone});
-}
+  String cargo;
 
-class CadastroFuncionario extends StatefulWidget {
-  @override
-  _CadastroFuncionarioState createState() => _CadastroFuncionarioState();
-}
+  Funcionario({required this.id, required this.nome, required this.cargo});
 
-class _CadastroFuncionarioState extends State<CadastroFuncionario> {
-  TextEditingController nomeController = TextEditingController();
-  TextEditingController cpfController = TextEditingController();
-  TextEditingController telefoneController = TextEditingController();
-  List<Funcionario> listaFuncionarios = [];
-
-  void cadastrarFuncionario() {
-    String nome = nomeController.text;
-    int cpf = int.parse(cpfController.text);
-    int telefone = int.parse(telefoneController.text);
-
-    Funcionario novoFuncionario = Funcionario(nome: nome, cpf: cpf, numeroTelefone: telefone);
-
-    listaFuncionarios.add(novoFuncionario);
-
-    nomeController.clear();
-    cpfController.clear();
-    telefoneController.clear();
-  }
-
-  void listarFuncionarios() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Funcionários Cadastrados'),
-          content: Container(
-            width: double.maxFinite,
-            child: ListView.builder(
-              itemCount: listaFuncionarios.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(listaFuncionarios[index].nome),
-                  subtitle: Text('CPF: ${listaFuncionarios[index].cpf}'),
-                  trailing: Text('Telefone: ${listaFuncionarios[index].numeroTelefone}'),
-                );
-              },
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Fechar'),
-            ),
-          ],
-        );
-      },
+  // Criando um Funcionario a partir de um DocumentSnapshot
+  factory Funcionario.fromSnapshot(DocumentSnapshot snapshot) {
+    return Funcionario(
+      id: snapshot.id,
+      nome: snapshot['nome'] ?? '',
+      cargo: snapshot['cargo'] ?? '',
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Cadastro de Funcionário'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: nomeController,
-              decoration: InputDecoration(
-                labelText: 'Nome',
-                prefixIcon: Icon(Icons.person), // Ícone para o campo de nome
-              ),
-            ),
-            TextField(
-              controller: cpfController,
-              decoration: InputDecoration(
-                labelText: 'CPF',
-                prefixIcon: Icon(Icons.credit_card), // Ícone para o campo de CPF
-              ),
-            ),
-            TextField(
-              controller: telefoneController,
-              decoration: InputDecoration(
-                labelText: 'Telefone',
-                prefixIcon: Icon(Icons.phone), // Ícone para o campo de telefone
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 20.0),
-              child: ElevatedButton(
-                onPressed: cadastrarFuncionario,
-                child: Text('Cadastrar'),
-              ),
-            ),
-            SizedBox(height: 20),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: listarFuncionarios,
-                    child: Text('Listar'),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+  // Convertendo um Funcionario para Map
+  Map<String, dynamic> toMap() {
+    return {
+      'nome': nome,
+      'cargo': cargo,
+    };
   }
 }
+
+FirebaseDatabase database = FirebaseDatabase.instance;
