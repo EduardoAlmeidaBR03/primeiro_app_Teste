@@ -53,15 +53,16 @@ class _LoginPageState extends State<LoginPage> {
         fit: StackFit.expand,
         children: [
           // Imagem de Fundo
-          Container(
-            height: 200, // Reduzindo a altura da imagem de fundo
+         Container(
+            margin: EdgeInsets.only(top: 250), // Adicionando um espaçamento superior de 40 pixels
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('images/jato.jpg'),
-                fit: BoxFit.cover,
+                fit: BoxFit.contain, // Reduz a imagem proporcionalmente para caber no Container
               ),
             ),
           ),
+
           // Aplica o desfoque na imagem de fundo quando um campo de texto é focado
           if (_isFieldFocused)
             BackdropFilter(
