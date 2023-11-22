@@ -74,6 +74,13 @@ class _CarrosScreenState extends State<CarrosScreen> {
                       return ListTile(
                         title: Text(carro['modelo'] ?? ''),
                         subtitle: Text(carro['marca'] ?? ''),
+                        trailing: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(carro['cor'] ?? ''), // Adicionando a cor ao ListTile
+                            Text(carro['placa'] ?? ''), // Adicionando a placa ao ListTile
+                          ],
+                        ),
                       );
                     },
                   );

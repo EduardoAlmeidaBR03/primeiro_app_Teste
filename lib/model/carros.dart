@@ -5,8 +5,10 @@ class Carros {
   String id;
   String modelo;
   String marca;
+  String cor; // Adicionando cor
+  String placa; // Adicionando placa
 
-  Carros({required this.id, required this.modelo, required this.marca});
+  Carros({required this.id, required this.modelo, required this.marca, required this.cor, required this.placa});
 
   // Criando um Carros a partir de um DocumentSnapshot
   factory Carros.fromSnapshot(DocumentSnapshot snapshot) {
@@ -14,6 +16,8 @@ class Carros {
       id: snapshot.id,
       modelo: snapshot['modelo'] ?? '',
       marca: snapshot['marca'] ?? '',
+      cor: snapshot['cor'] ?? '', // Obtendo cor do snapshot
+      placa: snapshot['placa'] ?? '', // Obtendo placa do snapshot
     );
   }
 
@@ -22,6 +26,8 @@ class Carros {
     return {
       'modelo': modelo,
       'marca': marca,
+      'cor': cor, // Adicionando cor ao mapa
+      'placa': placa, // Adicionando placa ao mapa
     };
   }
 }

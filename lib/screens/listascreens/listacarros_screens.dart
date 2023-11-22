@@ -31,6 +31,8 @@ class ListaCarrosScreen extends StatelessWidget {
                 id: docs[index].id,
                 modelo: carroData['modelo'],
                 marca: carroData['marca'],
+                cor: carroData['cor'], // Obtendo cor do snapshot
+                placa: carroData['placa'], // Obtendo placa do snapshot
               );
               return ListTile(
                 title: Text(carro.modelo),
