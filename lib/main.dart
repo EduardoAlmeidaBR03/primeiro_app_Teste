@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:primeiro_app/screens/ordem_servico_screen.dart';
 import 'screens/clientes_screen.dart';
 import 'screens/funcionarios_screen.dart';
 import 'screens/carros_screen.dart';
@@ -41,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ClientesScreen(),
     FuncionariosScreen(),
     CarrosScreen(),
+    OrdemServicoScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -69,6 +71,12 @@ class _MyHomePageState extends State<MyHomePage> {
           MaterialPageRoute(builder: (context) => CarrosScreen()),
         ); 
         break;
+      case 'cadastro_ordem_servico':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => OrdemServicoScreen()),
+        ); 
+        break;
     }
   }
 
@@ -93,6 +101,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 PopupMenuItem(
                   value: 'cadastro_carro',
                   child: Text('Cadastro de Carros'),
+                ),
+                PopupMenuItem(
+                  value: 'cadastro_ordem_servico',
+                  child: Text('Cadastro de Ordens de Serviços'),
                 ),
               ];
             },

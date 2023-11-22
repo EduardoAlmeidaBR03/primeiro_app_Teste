@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:primeiro_app/crud/cadastro_funcionario_screen.dart'; 
-import 'package:primeiro_app/screens/listascreens/listafuncionarios_screens.dart'; 
-import 'package:primeiro_app/model/funcionario.dart'; 
+import 'package:primeiro_app/crud/cadastro_ordem_servico_screen.dart'; 
+import 'package:primeiro_app/screens/listascreens/listaordemservico_screens.dart'; 
+import 'package:primeiro_app/model/ordem_servico.dart'; 
 import 'package:firebase_database/firebase_database.dart';
 
 FirebaseDatabase database = FirebaseDatabase.instance;
 
-class FuncionariosScreen extends StatefulWidget {
+class OrdemServicoScreen extends StatefulWidget {
   @override
-  _FuncionariosScreenState createState() => _FuncionariosScreenState();
+  _OrdemServicoScreenState createState() => _OrdemServicoScreenState();
 }
 
-class _FuncionariosScreenState extends State<FuncionariosScreen> {
+class _OrdemServicoScreenState extends State<OrdemServicoScreen> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Gerenciamento de Funcionários'),
+        title: Text('Gerenciamento de Ordens de Serviço'),
       ),
       body: Center(
         child: Column(
@@ -33,11 +33,11 @@ class _FuncionariosScreenState extends State<FuncionariosScreen> {
                   onPrimary: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                 ),
-                child: Text('Cadastro Funcionário'),
+                child: Text('Criar Ordem de Serviço'),
                 onPressed: () async {
                   await Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => CadastroFuncionarioScreen()),
+                    MaterialPageRoute(builder: (context) => CadastroOrdemServicoScreen()),
                   );
                   setState(() {});
                 },
@@ -51,21 +51,21 @@ class _FuncionariosScreenState extends State<FuncionariosScreen> {
                   onPrimary: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                 ),
-                child: Text('Alterações Funcionários'),
+                child: Text('Visualizar Ordens de Serviço'),
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ListaFuncionariosScreen()),
+                    MaterialPageRoute(builder: (context) => ListaOrdemServicoScreen()),
                   );
                 },
               ),
             ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: firestore.collection('funcionarios').snapshots(),
+                stream: firestore.collection('ordens_servico').snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
-                    return Text('Erro ao carregar funcionários');
+                    return Text('Erro ao carregar ordens de serviço');
                   }
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return CircularProgressIndicator();
@@ -74,10 +74,10 @@ class _FuncionariosScreenState extends State<FuncionariosScreen> {
                   return ListView.builder(
                     itemCount: docs.length,
                     itemBuilder: (context, index) {
-                      Funcionario funcionario = Funcionario.fromSnapshot(docs[index]);
+                      OrdemServico ordemServico = OrdemServico.fromSnapshot(docs[index]);
                       return ListTile(
-                        title: Text(funcionario.nome),
-                        subtitle: Text(funcionario.cargo),
+                        title: Text(ordemServico.cliente),
+                        subtitle: Text(ordemServico.carro),
                       );
                     },
                   );
