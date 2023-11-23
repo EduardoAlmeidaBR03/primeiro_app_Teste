@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:primeiro_app/edits/editcarros.dart'; // Supondo que você tenha um arquivo para a tela de edição de carros
-import 'package:primeiro_app/model/carros.dart'; // Supondo que você tenha uma classe Carros
+import 'package:primeiro_app/edits/editcarros.dart'; 
+import 'package:primeiro_app/model/carros.dart'; 
 
 class ListaCarrosScreen extends StatelessWidget {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -31,8 +31,8 @@ class ListaCarrosScreen extends StatelessWidget {
                 id: docs[index].id,
                 modelo: carroData['modelo'],
                 marca: carroData['marca'],
-                cor: carroData['cor'], // Obtendo cor do snapshot
-                placa: carroData['placa'], // Obtendo placa do snapshot
+                cor: carroData['cor'], 
+                placa: carroData['placa'], 
               );
               return ListTile(
                 title: Text(carro.modelo),

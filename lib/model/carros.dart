@@ -5,8 +5,8 @@ class Carros {
   String id;
   String modelo;
   String marca;
-  String cor; // Adicionando cor
-  String placa; // Adicionando placa
+  String cor; 
+  String placa; 
 
   Carros({required this.id, required this.modelo, required this.marca, required this.cor, required this.placa});
 
@@ -16,8 +16,8 @@ class Carros {
       id: snapshot.id,
       modelo: snapshot['modelo'] ?? '',
       marca: snapshot['marca'] ?? '',
-      cor: snapshot['cor'] ?? '', // Obtendo cor do snapshot
-      placa: snapshot['placa'] ?? '', // Obtendo placa do snapshot
+      cor: snapshot['cor'] ?? '', 
+      placa: snapshot['placa'] ?? '', 
     );
   }
 
@@ -26,8 +26,8 @@ class Carros {
     return {
       'modelo': modelo,
       'marca': marca,
-      'cor': cor, // Adicionando cor ao mapa
-      'placa': placa, // Adicionando placa ao mapa
+      'cor': cor, 
+      'placa': placa, 
     };
   }
 }
