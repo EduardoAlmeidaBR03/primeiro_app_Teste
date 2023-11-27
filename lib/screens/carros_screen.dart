@@ -23,37 +23,39 @@ class _CarrosScreenState extends State<CarrosScreen> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(15.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
-                  onPrimary: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                ),
-                child: Text('Cadastro de Carro'),
-                onPressed: () async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CadastroCarrosScreen()),
-                  );
-                  setState(() {});
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
-                  onPrimary: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                ),
-                child: Text('Alterações de Carros'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ListaCarrosScreen()),
-                  );
-                },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color.fromARGB(255, 29, 43, 122), 
+                      onPrimary: Colors.white,
+                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                    ),
+                    child: Text('Cadastro Funcionário'),
+                    onPressed: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CadastroCarrosScreen()),
+                      );
+                      setState(() {});
+                    },
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color.fromARGB(255, 29, 43, 122), 
+                      onPrimary: Colors.white,
+                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                    ),
+                    child: Text('Visualizar'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ListaCarrosScreen()),
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
             Expanded(
@@ -74,13 +76,6 @@ class _CarrosScreenState extends State<CarrosScreen> {
                       return ListTile(
                         title: Text(carro['modelo'] ?? ''),
                         subtitle: Text(carro['marca'] ?? ''),
-                        trailing: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(carro['cor'] ?? ''), // Adicionando a cor ao ListTile
-                            Text(carro['placa'] ?? ''), // Adicionando a placa ao ListTile
-                          ],
-                        ),
                       );
                     },
                   );

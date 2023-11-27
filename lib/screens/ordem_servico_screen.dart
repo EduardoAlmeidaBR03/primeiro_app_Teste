@@ -27,37 +27,40 @@ class _OrdemServicoScreenState extends State<OrdemServicoScreen> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(15.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blueGrey,
-                  onPrimary: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                ),
-                child: Text('Criar Ordem de Serviço'),
-                onPressed: () async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CadastroOrdemServicoScreen()),
-                  );
-                  setState(() {});
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blueGrey,
-                  onPrimary: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                ),
-                child: Text('Visualizar Ordens de Serviço'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ListaOrdemServicoScreen()),
-                  );
-                },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color.fromARGB(255, 29, 43, 122), 
+                      onPrimary: Colors.white,
+                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                    ),
+                    child: Text('Criar Ordem de Serviço'),
+                    onPressed: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CadastroOrdemServicoScreen()),
+                      );
+                      setState(() {});
+                    },
+                  ),
+                  SizedBox(width: 10), // Espaçamento entre os botões
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color.fromARGB(255, 29, 43, 122), 
+                      onPrimary: Colors.white,
+                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                    ),
+                    child: Text('Visualizar Ordens de Serviço'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ListaOrdemServicoScreen()),
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
             Expanded(

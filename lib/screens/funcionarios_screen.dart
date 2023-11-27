@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:primeiro_app/crud/cadastro_funcionario_screen.dart'; 
-import 'package:primeiro_app/screens/listascreens/listafuncionarios_screens.dart'; 
-import 'package:primeiro_app/model/funcionario.dart'; 
+import 'package:primeiro_app/crud/cadastro_funcionario_screen.dart';
+import 'package:primeiro_app/screens/listascreens/listafuncionarios_screens.dart';
+import 'package:primeiro_app/model/funcionario.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 FirebaseDatabase database = FirebaseDatabase.instance;
@@ -27,37 +27,40 @@ class _FuncionariosScreenState extends State<FuncionariosScreen> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(15.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blueGrey,
-                  onPrimary: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                ),
-                child: Text('Cadastro Funcionário'),
-                onPressed: () async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CadastroFuncionarioScreen()),
-                  );
-                  setState(() {});
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blueGrey,
-                  onPrimary: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                ),
-                child: Text('Alterações Funcionários'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ListaFuncionariosScreen()),
-                  );
-                },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color.fromARGB(255, 29, 43, 122), 
+                      onPrimary: Colors.white,
+                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                    ),
+                    child: Text('Cadastro Funcionário'),
+                    onPressed: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CadastroFuncionarioScreen()),
+                      );
+                      setState(() {});
+                    },
+                  ),
+                  SizedBox(width: 10), // Espaçamento entre os botões
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color.fromARGB(255, 29, 43, 122), 
+                      onPrimary: Colors.white,
+                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                    ),
+                    child: Text('Alterações Funcionários'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ListaFuncionariosScreen()),
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
             Expanded(

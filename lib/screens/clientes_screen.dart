@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:primeiro_app/crud/cadastro_cliente_screen.dart';
 import 'package:primeiro_app/screens/listascreens/listaclientes_screens.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,39 +24,42 @@ class _ClientesScreenState extends State<ClientesScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
                 Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.red,
-                  onPrimary: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color.fromARGB(255, 29, 43, 122), 
+                      onPrimary: Colors.white,
+                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                    ),
+                    child: Text('Cadastro Cliente'),
+                    onPressed: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CadastroClienteScreen()),
+                      );
+                      setState(() {});
+                    },
+                  ),
                 ),
-                child: Text('     Cadastro Cliente'),
-                onPressed: () async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CadastroClienteScreen()),
-                  );
-                  setState(() {}); 
-                },
-              ),
-            ),
-            Padding( // Adiciona espaçamento em volta do botão
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.red, // Cor de fundo do botão
-                  onPrimary: Colors.white, // Cor do texto do botão
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20), // Espaçamento interno do botão
+                SizedBox(width: 10), // Espaçamento entre os botões
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: const Color.fromARGB(255, 29, 43, 122), 
+                      onPrimary: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                  ),
+                  child: Text('Alterações Clientes'),
+                  onPressed: () {
+                    _listarClientes(context);
+                  },
                 ),
-                child: Text('Alterações Clientes'),
-                onPressed: () {
-                  _listarClientes(context);
-                },
-              ),
+              ],
             ),
- Expanded(
+            Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: firestore.collection('clientes').snapshots(),
                 builder: (context, snapshot) {
@@ -86,7 +88,6 @@ class _ClientesScreenState extends State<ClientesScreen> {
       ),
     );
   }
-}
 
   void _listarClientes(BuildContext context) {
     Navigator.of(context).push(
@@ -95,3 +96,4 @@ class _ClientesScreenState extends State<ClientesScreen> {
       ),
     );
   }
+}

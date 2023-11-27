@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:primeiro_app/crud/cadastro_ordem_servico_screen.dart';
+import 'package:primeiro_app/screens/listascreens/listaordemservico_screens.dart';
 import 'package:primeiro_app/screens/ordem_servico_screen.dart';
 import 'screens/clientes_screen.dart';
 import 'screens/funcionarios_screen.dart';
@@ -35,8 +37,31 @@ class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
-
+/// LISTA PARA O CARD QUE SERÁ ALTERADA///
 class _MyHomePageState extends State<MyHomePage> {
+
+
+    List<Map<String, String>> ordensDeServico = [
+    {
+      'cliente': 'João da Silva',
+      'carro': 'Fiat Uno',
+      'funcionario': 'Pedro Almeida'
+    },
+    {
+      'cliente': 'Maria Oliveira',
+      'carro': 'Volkswagen Gol',
+      'funcionario': 'Ana Souza'
+    },
+    {
+      'cliente': 'Carlos Santos',
+      'carro': 'Ford Fiesta',
+      'funcionario': 'José Pereira'
+    },
+
+  ];
+
+
+
   int _selectedIndex = 0;
   final List<Widget> _widgetOptions = <Widget>[
     ClientesScreen(),
@@ -79,8 +104,9 @@ class _MyHomePageState extends State<MyHomePage> {
         break;
     }
   }
+  
 
-  @override
+    @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -111,7 +137,60 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      
+     
+/// CARD PARA AS ORDENS DE SERVIÇO///
+    body: ListView.builder(
+      itemCount: ordensDeServico.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Card(
+            child: ListTile(
+              title: Text('Cliente: ${ordensDeServico[index]['cliente']}'),
+              subtitle: Text('Carro: ${ordensDeServico[index]['carro']}'),
+              // Adicione esta linha para os funcionários
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(width: 10), // Espaçamento entre os botões
+                  Text('Funcionário: ${ordensDeServico[index]['funcionario']}'),
+                  IconButton(
+                    icon: Icon(Icons.close, color: Colors.red),
+                    onPressed: () {
+                      _excluirOrdemServico(index);
+                    },
+                  ),
+                ],
+              ),
+              onTap: () {
+                ListaOrdemServicoScreen();
+              },
+            ),
+          ),
+        );
+      },
+    ),
+
+
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CadastroOrdemServicoScreen()),
+          );
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Color.fromARGB(255, 29, 43, 122),
+      ),
     );
+  }
+
+
+/// FUNÇÃO PARA EXCLUIR O CARD///
+  void _excluirOrdemServico(int index) {
+    setState(() {
+      ordensDeServico.removeAt(index);
+    });
   }
 }
