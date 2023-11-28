@@ -76,7 +76,14 @@ class _ClientesScreenState extends State<ClientesScreen> {
                       var cliente = docs[index].data() as Map<String, dynamic>;
                       return ListTile(
                         title: Text(cliente['nome']),
-                        subtitle: Text(cliente['cpf']),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('CPF: ${cliente['cpf']}'),
+                            Text('Contato: ${cliente['contato']}'),
+                            Text('Endereço: ${cliente['endereco']}'),
+                          ],
+                        ),
                       );
                     },
                   );
