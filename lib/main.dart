@@ -45,17 +45,20 @@ class _MyHomePageState extends State<MyHomePage> {
     {
       'cliente': 'João da Silva',
       'carro': 'Fiat Uno',
-      'funcionario': 'Pedro Almeida'
+      'funcionario': 'Pedro Almeida',
+      'placa': 'ABN-4C22'
     },
     {
       'cliente': 'Maria Oliveira',
       'carro': 'Volkswagen Gol',
-      'funcionario': 'Ana Souza'
+      'funcionario': 'Ana Souza',
+      'placa': 'ABN-4C23'
     },
     {
       'cliente': 'Carlos Santos',
       'carro': 'Ford Fiesta',
-      'funcionario': 'José Pereira'
+      'funcionario': 'José Pereira',
+      'placa': 'ABN-4C24'
     },
 
   ];
@@ -154,6 +157,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   SizedBox(width: 10), // Espaçamento entre os botões
                   Text('Funcionário: ${ordensDeServico[index]['funcionario']}'),
+                  SizedBox(width: 10),
+                  Text('Placa: ${ordensDeServico[index]['placa']}'),
                   IconButton(
                     icon: Icon(Icons.close, color: Colors.red),
                     onPressed: () {

@@ -32,6 +32,7 @@ class ListaOrdemServicoScreen extends StatelessWidget {
                 cliente: ordemServicoData['cliente'],
                 carro: ordemServicoData['carro'],
                 funcionario: ordemServicoData['funcionario'],
+                placa: ordemServicoData['placa'],
                 
               );
               return ListTile(
@@ -41,6 +42,7 @@ class ListaOrdemServicoScreen extends StatelessWidget {
                   children: [
                     Text('Carro: ${ordemServico.carro}'),
                     Text('Funcionário: ${ordemServico.funcionario}'),
+                    Text('Placa: ${ordemServico.placa}'),
                     
                   ],
                 ),
