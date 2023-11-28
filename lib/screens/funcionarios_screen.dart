@@ -3,9 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:primeiro_app/crud/cadastro_funcionario_screen.dart';
 import 'package:primeiro_app/screens/listascreens/listafuncionarios_screens.dart';
 import 'package:primeiro_app/model/funcionario.dart';
-import 'package:firebase_database/firebase_database.dart';
-
-FirebaseDatabase database = FirebaseDatabase.instance;
 
 class FuncionariosScreen extends StatefulWidget {
   @override
@@ -32,7 +29,7 @@ class _FuncionariosScreenState extends State<FuncionariosScreen> {
                 children: <Widget>[
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: const Color.fromARGB(255, 29, 43, 122), 
+                      primary: const Color.fromARGB(255, 29, 43, 122),
                       onPrimary: Colors.white,
                       padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                     ),
@@ -45,10 +42,10 @@ class _FuncionariosScreenState extends State<FuncionariosScreen> {
                       setState(() {});
                     },
                   ),
-                  SizedBox(width: 10), // Espaçamento entre os botões
+                  SizedBox(width: 10),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: const Color.fromARGB(255, 29, 43, 122), 
+                      primary: const Color.fromARGB(255, 29, 43, 122),
                       onPrimary: Colors.white,
                       padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                     ),
@@ -80,7 +77,13 @@ class _FuncionariosScreenState extends State<FuncionariosScreen> {
                       Funcionario funcionario = Funcionario.fromSnapshot(docs[index]);
                       return ListTile(
                         title: Text(funcionario.nome),
-                        subtitle: Text(funcionario.cargo),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Cargo: ${funcionario.cargo}'),
+                            Text('Contato: ${funcionario.contato}'),
+                          ],
+                        ),
                       );
                     },
                   );

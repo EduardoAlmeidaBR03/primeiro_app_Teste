@@ -32,7 +32,7 @@ class _CarrosScreenState extends State<CarrosScreen> {
                       onPrimary: Colors.white,
                       padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                     ),
-                    child: Text('Cadastro Funcionário'),
+                    child: Text('Cadastro Carros'),
                     onPressed: () async {
                       await Navigator.push(
                         context,

@@ -15,18 +15,21 @@ class _EdicaoFuncionariosScreenState extends State<EdicaoFuncionariosScreen> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _cargoController = TextEditingController();
+  final TextEditingController _contatoController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _nomeController.text = widget.funcionario.nome;
     _cargoController.text = widget.funcionario.cargo;
+    _contatoController.text = widget.funcionario.contato;
   }
 
   @override
   void dispose() {
     _nomeController.dispose();
     _cargoController.dispose();
+    _contatoController.dispose();
     super.dispose();
   }
 
@@ -34,6 +37,7 @@ class _EdicaoFuncionariosScreenState extends State<EdicaoFuncionariosScreen> {
     firestore.collection('funcionarios').doc(widget.funcionario.id).update({
       'nome': _nomeController.text,
       'cargo': _cargoController.text,
+      'contato': _contatoController.text,
     }).then((_) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Funcionário atualizado com sucesso.')));
@@ -61,6 +65,10 @@ class _EdicaoFuncionariosScreenState extends State<EdicaoFuncionariosScreen> {
             TextField(
               controller: _cargoController,
               decoration: InputDecoration(labelText: 'Cargo'),
+            ),
+            TextField(
+              controller: _contatoController,
+              decoration: InputDecoration(labelText: 'Contato'),
             ),
             ElevatedButton(
               child: Text('Salvar Alterações'),

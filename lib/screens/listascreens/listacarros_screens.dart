@@ -36,14 +36,21 @@ class ListaCarrosScreen extends StatelessWidget {
               );
               return ListTile(
                 title: Text(carro.modelo),
-                subtitle: Text(carro.marca),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Marca: ${carro.marca}'),
+                    Text('Cor: ${carro.cor}'),
+                    Text('Placa: ${carro.placa}'),
+                  ],
+                ),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     IconButton(
                       icon: Icon(Icons.edit),
                       onPressed: () {
-                        // Navegue para a tela de edição de carros
+                        // Direciona para a tela de edição de carros
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -61,6 +68,7 @@ class ListaCarrosScreen extends StatelessWidget {
                   ],
                 ),
               );
+
             },
           );
         },
