@@ -1,6 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:primeiro_app/crud/cadastro_ordem_servico_screen.dart';
-import 'package:primeiro_app/screens/listascreens/listaordemservico_screens.dart';
 import 'package:primeiro_app/screens/ordem_servico_screen.dart';
 import 'screens/clientes_screen.dart';
 import 'screens/funcionarios_screen.dart';
@@ -54,6 +54,11 @@ class _MyHomePageState extends State<MyHomePage> {
     },
     {
       'cliente': 'Carlos Santos',
+      'carro': 'Ford Fiesta',
+      'funcionario': 'José Pereira'
+    },
+    {
+      'cliente': '',
       'carro': 'Ford Fiesta',
       'funcionario': 'José Pereira'
     },
@@ -139,37 +144,38 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
      
 /// CARD PARA AS ORDENS DE SERVIÇO///
-    body: ListView.builder(
-      itemCount: ordensDeServico.length,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Card(
-            child: ListTile(
-              title: Text('Cliente: ${ordensDeServico[index]['cliente']}'),
-              subtitle: Text('Carro: ${ordensDeServico[index]['carro']}'),
-              // Adicione esta linha para os funcionários
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(width: 10), // Espaçamento entre os botões
-                  Text('Funcionário: ${ordensDeServico[index]['funcionario']}'),
-                  IconButton(
-                    icon: Icon(Icons.close, color: Colors.red),
-                    onPressed: () {
-                      _excluirOrdemServico(index);
+    body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('ordens_servico').snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text('Erro ao carregar os dados'));
+          }
+          List<DocumentSnapshot> ordens = snapshot.data!.docs;
+          return ListView.builder(
+            itemCount: ordens.length,
+            itemBuilder: (context, index) {
+              var ordem = ordens[index];
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  child: ListTile(
+                    title: Text('Cliente: ${ordem['cliente']}'),
+                    subtitle: Text('Carro: ${ordem['carro']}'),
+                    trailing: Text('Funcionário: ${ordem['funcionario']}'),
+                    onTap: () {
+                      // Navegar para a tela de detalhes da ordem de serviço
+                      
                     },
                   ),
-                ],
-              ),
-              onTap: () {
-                ListaOrdemServicoScreen();
-              },
-            ),
-          ),
-        );
-      },
-    ),
+                ),
+              );
+            },
+          );
+        },
+      ),
 
 
 
