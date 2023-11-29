@@ -29,7 +29,14 @@ class ListaClientesScreen extends StatelessWidget {
               var cliente = docs[index].data() as Map<String, dynamic>;
               return ListTile(
                 title: Text(cliente['nome']),
-                subtitle: Text(cliente['cpf']),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('CPF: ${cliente['cpf']}'),
+                    Text('Contato: ${cliente['contato']}'),
+                    Text('Endereço: ${cliente['endereco']}'),
+                  ],
+                ),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -40,6 +47,8 @@ class ListaClientesScreen extends StatelessWidget {
                           id: docs[index].id,
                           nome: cliente['nome'],
                           cpf: cliente['cpf'],
+                          contato: cliente['contato'],
+                          endereco: cliente['endereco'],
                         );
                         Navigator.push(
                           context,
@@ -49,8 +58,6 @@ class ListaClientesScreen extends StatelessWidget {
                         );
                       },
                     ),
-
-
                     IconButton(
                       icon: Icon(Icons.delete),
                       onPressed: () {

@@ -6,6 +6,7 @@ class OrdemServico {
   String cliente;
   String carro;
   String funcionario;
+  String placa;
   
 
   OrdemServico({
@@ -13,6 +14,7 @@ class OrdemServico {
     required this.cliente,
     required this.carro,
     required this.funcionario,
+    required this.placa,
     
   });
 
@@ -23,6 +25,7 @@ class OrdemServico {
       cliente: snapshot['cliente'] ?? '',
       carro: snapshot['carro'] ?? '',
       funcionario: snapshot['funcionario'] ?? '',
+      placa: snapshot['placa'] ?? '',
        );
   }
 
@@ -33,7 +36,7 @@ class OrdemServico {
       'cliente': cliente,
       'carro': carro,
       'funcionario': funcionario,
-      
+      'placa': placa,
     };
   }
 }

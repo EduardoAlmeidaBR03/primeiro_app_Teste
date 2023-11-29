@@ -5,6 +5,7 @@ class CadastroOrdemServicoScreen extends StatelessWidget {
   final TextEditingController clienteController = TextEditingController();
   final TextEditingController carroController = TextEditingController();
   final TextEditingController funcionarioController = TextEditingController();
+  final TextEditingController placaController = TextEditingController();
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
@@ -30,14 +31,19 @@ class CadastroOrdemServicoScreen extends StatelessWidget {
               controller: funcionarioController,
               decoration: InputDecoration(labelText: 'Funcionário'),
             ),
+            TextField(
+              controller: placaController,
+              decoration: InputDecoration(labelText: 'Placa'),
+            ),
             ElevatedButton(
               child: Text('Salvar Ordem de Serviço'),
               onPressed: () {
                 final String cliente = clienteController.text;
                 final String carro = carroController.text;
                 final String funcionario = funcionarioController.text;
-                if (cliente.isNotEmpty && carro.isNotEmpty && funcionario.isNotEmpty) {
-                  salvarOrdemServico(cliente, carro, funcionario, context);
+                final String placa = placaController.text;
+                if (cliente.isNotEmpty && carro.isNotEmpty && funcionario.isNotEmpty && placa.isNotEmpty) {
+                  salvarOrdemServico(cliente, carro, funcionario, placa,  context);
                 }
               },
             ),
@@ -47,11 +53,12 @@ class CadastroOrdemServicoScreen extends StatelessWidget {
     );
   }
 
-  void salvarOrdemServico(String cliente, String carro, String funcionario, BuildContext context) {
+  void salvarOrdemServico(String cliente, String carro, String funcionario, String placa, BuildContext context) {
     Map<String, dynamic> novaOrdemServico = {
       'cliente': cliente,
       'carro': carro,
       'funcionario': funcionario,
+      'placa': placa,
     };
     firestore.collection('ordens_servico').add(novaOrdemServico).then((_) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Ordem de serviço salva com sucesso.')));

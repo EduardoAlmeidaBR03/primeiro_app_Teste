@@ -41,31 +41,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
 
-    List<Map<String, String>> ordensDeServico = [
-    {
-      'cliente': 'João da Silva',
-      'carro': 'Fiat Uno',
-      'funcionario': 'Pedro Almeida'
-    },
-    {
-      'cliente': 'Maria Oliveira',
-      'carro': 'Volkswagen Gol',
-      'funcionario': 'Ana Souza'
-    },
-    {
-      'cliente': 'Carlos Santos',
-      'carro': 'Ford Fiesta',
-      'funcionario': 'José Pereira'
-    },
-    {
-      'cliente': '',
-      'carro': 'Ford Fiesta',
-      'funcionario': 'José Pereira'
-    },
-
-  ];
-
-
 
   int _selectedIndex = 0;
   final List<Widget> _widgetOptions = <Widget>[
@@ -144,7 +119,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
      
 /// CARD PARA AS ORDENS DE SERVIÇO///
-    body: StreamBuilder<QuerySnapshot>(
+
+     body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('ordens_servico').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -165,9 +141,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     title: Text('Cliente: ${ordem['cliente']}'),
                     subtitle: Text('Carro: ${ordem['carro']}'),
                     trailing: Text('Funcionário: ${ordem['funcionario']}'),
+                    
                     onTap: () {
-                      // Navegar para a tela de detalhes da ordem de serviço
                       
+                     
                     },
                   ),
                 ),
@@ -177,6 +154,8 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
 
+      
+   
 
 
       floatingActionButton: FloatingActionButton(
@@ -195,8 +174,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
 /// FUNÇÃO PARA EXCLUIR O CARD///
   void _excluirOrdemServico(int index) {
-    setState(() {
-      ordensDeServico.removeAt(index);
+  setState(() {
+    FirebaseFirestore.instance.collection('ordens_servico').get().then((snapshot) {
+      snapshot.docs[index].reference.delete();
     });
-  }
+  });
+}
 }

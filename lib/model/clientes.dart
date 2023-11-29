@@ -5,14 +5,18 @@ class Clientes {
   String id;
   String nome;
   String cpf;
+  String contato;
+  String endereco;
 
-  Clientes({required this.id, required this.nome, required this.cpf});
+  Clientes({required this.id, required this.nome, required this.cpf, required this.contato, required this.endereco});
 
   factory Clientes.fromSnapshot(DocumentSnapshot snapshot) {
     return Clientes(
       id: snapshot.id,
       nome: snapshot['nome'] ?? '',
       cpf: snapshot['cpf'] ?? '',
+      contato: snapshot['contato'] ?? '',
+      endereco: snapshot['endereco'] ?? '',
     );
   }
 
@@ -20,6 +24,8 @@ class Clientes {
     return {
       'nome': nome,
       'cpf': cpf,
+      'contato': contato,
+      'endereco': endereco,
     };
   }
 }
