@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:primeiro_app/model/funcionario.dart';
-import 'package:primeiro_app/edits/editfuncionarios.dart'; // Certifique-se de criar o arquivo editfuncionarios.dart
+import 'package:primeiro_app/edits/editfuncionarios.dart';
 
 class ListaFuncionariosScreen extends StatelessWidget {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -27,10 +27,21 @@ class ListaFuncionariosScreen extends StatelessWidget {
             itemCount: docs.length,
             itemBuilder: (context, index) {
               var funcionarioData = docs[index].data() as Map<String, dynamic>;
-              Funcionario funcionario = Funcionario(id: docs[index].id, nome: funcionarioData['nome'], cargo: funcionarioData['cargo']);
+              Funcionario funcionario = Funcionario(
+                id: docs[index].id,
+                nome: funcionarioData['nome'],
+                cargo: funcionarioData['cargo'],
+                contato: funcionarioData['contato'],
+              );
               return ListTile(
                 title: Text(funcionario.nome),
-                subtitle: Text(funcionario.cargo),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(funcionario.cargo),
+                    Text('Contato: ${funcionario.contato}'),
+                  ],
+                ),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -41,7 +52,8 @@ class ListaFuncionariosScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => EdicaoFuncionariosScreen(funcionario: funcionario),
+                            builder: (context) =>
+                                EdicaoFuncionariosScreen(funcionario: funcionario),
                           ),
                         );
                       },
@@ -64,11 +76,13 @@ class ListaFuncionariosScreen extends StatelessWidget {
 
   void _excluirFuncionario(String docId, BuildContext context) {
     firestore.collection('funcionarios').doc(docId).delete().then((_) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Funcionário excluído com sucesso.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Funcionário excluído com sucesso.')),
+      );
     }).catchError((error) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Erro ao excluir funcionário: $error')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao excluir funcionário: $error')),
+      );
     });
   }
 }

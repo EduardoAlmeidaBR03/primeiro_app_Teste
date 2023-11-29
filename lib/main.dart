@@ -5,9 +5,9 @@ import 'package:primeiro_app/screens/ordem_servico_screen.dart';
 import 'screens/clientes_screen.dart';
 import 'screens/funcionarios_screen.dart';
 import 'screens/carros_screen.dart';
-import 'screens/login.dart'; 
+import 'screens/login.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:primeiro_app/firebase_options.dart'; 
+import 'package:primeiro_app/firebase_options.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 FirebaseDatabase database = FirebaseDatabase.instance;
@@ -37,11 +37,8 @@ class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
-/// LISTA PARA O CARD QUE SERÁ ALTERADA///
+
 class _MyHomePageState extends State<MyHomePage> {
-
-
-
   int _selectedIndex = 0;
   final List<Widget> _widgetOptions = <Widget>[
     ClientesScreen(),
@@ -68,25 +65,24 @@ class _MyHomePageState extends State<MyHomePage> {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => FuncionariosScreen()),
-        ); 
+        );
         break;
       case 'cadastro_carro':
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => CarrosScreen()),
-        ); 
+        );
         break;
       case 'cadastro_ordem_servico':
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => OrdemServicoScreen()),
-        ); 
+        );
         break;
     }
   }
-  
 
-    @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -117,10 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-     
-/// CARD PARA AS ORDENS DE SERVIÇO///
-
-     body: StreamBuilder<QuerySnapshot>(
+      body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('ordens_servico').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -132,32 +125,39 @@ class _MyHomePageState extends State<MyHomePage> {
           List<DocumentSnapshot> ordens = snapshot.data!.docs;
           return ListView.builder(
             itemCount: ordens.length,
-            itemBuilder: (context, index) {
+            itemBuilder: (context, index) {    
               var ordem = ordens[index];
               return Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),   
                 child: Card(
                   child: ListTile(
-                    title: Text('Cliente: ${ordem['cliente']}'),
-                    subtitle: Text('Carro: ${ordem['carro']}'),
-                    trailing: Text('Funcionário: ${ordem['funcionario']}'),
-                    
-                    onTap: () {
-                      
-                     
-                    },
-                  ),
+                    title: Text('Carro: ${ordem['carro']}'),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Placa: ${ordem['placa']}'),
+                        Text('Funcionário: ${ordem['funcionario']}'),
+                      ],
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                    icon: Icon(Icons.close, color: Colors.red),
+                      onPressed: () {
+                      _excluirOrdemServico(index);
+                      },
+                      ),
+                      ],
+                    ),
+                    leading: Text('Cliente: ${ordem['cliente']}'),
+                 ),
                 ),
               );
             },
           );
         },
       ),
-
-      
-   
-
-
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -171,13 +171,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-
-/// FUNÇÃO PARA EXCLUIR O CARD///
   void _excluirOrdemServico(int index) {
-  setState(() {
-    FirebaseFirestore.instance.collection('ordens_servico').get().then((snapshot) {
-      snapshot.docs[index].reference.delete();
-    });
+  FirebaseFirestore.instance.collection('ordens_servico').get().then((snapshot) {
+    snapshot.docs[index].reference.delete();
   });
 }
 }

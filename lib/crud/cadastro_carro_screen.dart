@@ -19,8 +19,8 @@ Future<void> adicionarCarro(String modelo, String marca, String cor, String plac
 class CadastroCarrosScreen extends StatelessWidget {
   final TextEditingController modeloController = TextEditingController();
   final TextEditingController marcaController = TextEditingController();
-  final TextEditingController corController = TextEditingController(); // Adicionando controller para cor
-  final TextEditingController placaController = TextEditingController(); // Adicionando controller para placa
+  final TextEditingController corController = TextEditingController(); 
+  final TextEditingController placaController = TextEditingController(); 
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +43,11 @@ class CadastroCarrosScreen extends StatelessWidget {
             ),
             TextField(
               controller: corController,
-              decoration: InputDecoration(labelText: 'Cor do Carro'), // Campo para inserir a cor
+              decoration: InputDecoration(labelText: 'Cor do Carro'), 
             ),
             TextField(
               controller: placaController,
-              decoration: InputDecoration(labelText: 'Placa do Carro'), // Campo para inserir a placa
+              decoration: InputDecoration(labelText: 'Placa do Carro'), 
             ),
             ElevatedButton(
               child: Text('Salvar Carro'),

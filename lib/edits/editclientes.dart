@@ -16,6 +16,8 @@ class _EdicaoClienteScreenState extends State<EdicaoClienteScreen> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _cpfController = TextEditingController();
+  final TextEditingController _contatoController = TextEditingController();
+  final TextEditingController _enderecoController = TextEditingController();
   
 
   @override
@@ -23,6 +25,8 @@ class _EdicaoClienteScreenState extends State<EdicaoClienteScreen> {
     super.initState();
     _nomeController.text = widget.cliente.nome;
     _cpfController.text = widget.cliente.cpf;
+    _contatoController.text = widget.cliente.contato;
+    _enderecoController.text = widget.cliente.endereco;
   }
 
   @override
@@ -36,6 +40,8 @@ class _EdicaoClienteScreenState extends State<EdicaoClienteScreen> {
     firestore.collection('clientes').doc(widget.cliente.id).update({
       'nome': _nomeController.text,
       'cpf': _cpfController.text,
+      'contato': _contatoController.text,
+      'endereco': _enderecoController.text,
     }).then((_) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Cliente atualizado com sucesso.')));
@@ -63,6 +69,14 @@ class _EdicaoClienteScreenState extends State<EdicaoClienteScreen> {
             TextField(
               controller: _cpfController,
               decoration: InputDecoration(labelText: 'CPF'),
+            ),
+            TextField(
+              controller: _contatoController,
+              decoration: InputDecoration(labelText: 'Contato'),
+            ),
+            TextField(
+              controller: _enderecoController,
+              decoration: InputDecoration(labelText: 'Endereço'),
             ),
             ElevatedButton(
               child: Text('Salvar Alterações'),

@@ -15,18 +15,24 @@ class _EdicaoCarrosScreenState extends State<EdicaoCarrosScreen> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final TextEditingController _modeloController = TextEditingController();
   final TextEditingController _marcaController = TextEditingController();
+  final TextEditingController _corController = TextEditingController();
+  final TextEditingController _placaController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _modeloController.text = widget.carro.modelo;
     _marcaController.text = widget.carro.marca;
+    _corController.text = widget.carro.cor;
+    _placaController.text = widget.carro.placa;
   }
 
   @override
   void dispose() {
     _modeloController.dispose();
     _marcaController.dispose();
+    _corController.dispose();
+    _placaController.dispose();
     super.dispose();
   }
 
@@ -34,6 +40,8 @@ class _EdicaoCarrosScreenState extends State<EdicaoCarrosScreen> {
     firestore.collection('carros').doc(widget.carro.id).update({
       'modelo': _modeloController.text,
       'marca': _marcaController.text,
+      'cor': _corController.text,
+      'placa': _placaController.text,
     }).then((_) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Carro atualizado com sucesso.')));
@@ -61,6 +69,14 @@ class _EdicaoCarrosScreenState extends State<EdicaoCarrosScreen> {
             TextField(
               controller: _marcaController,
               decoration: InputDecoration(labelText: 'Marca'),
+            ),
+            TextField(
+              controller: _corController,
+              decoration: InputDecoration(labelText: 'Cor'),
+            ),
+            TextField(
+              controller: _placaController,
+              decoration: InputDecoration(labelText: 'Placa'),
             ),
             ElevatedButton(
               child: Text('Salvar Alterações'),
