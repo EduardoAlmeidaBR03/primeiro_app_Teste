@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:primeiro_app/crud/cadastro_ordem_servico_screen.dart';
+import 'package:primeiro_app/screens/listascreens/listaordemservico_screens.dart';
 import 'package:primeiro_app/screens/ordem_servico_screen.dart';
 import 'screens/clientes_screen.dart';
 import 'screens/funcionarios_screen.dart';
@@ -130,6 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
               return Padding(
                 padding: const EdgeInsets.all(8.0),   
                 child: Card(
+                  
                   child: ListTile(
                     title: Text('Carro: ${ordem['carro']}'),
                     subtitle: Column(
@@ -151,7 +153,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                     leading: Text('Cliente: ${ordem['cliente']}'),
+                    onTap: () {        
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ListaOrdemServicoScreen()),
+                      );
+                    },
                  ),
+                 
                 ),
               );
             },

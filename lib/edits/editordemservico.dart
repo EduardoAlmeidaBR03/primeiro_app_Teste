@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:primeiro_app/model/ordem_servico.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:primeiro_app/crud/cadastro_funcionario_screen.dart';
 
 class EdicaoOrdemServicoScreen extends StatefulWidget {
   final OrdemServico ordemServico;
@@ -16,6 +17,9 @@ class _EdicaoOrdemServicoScreenState extends State<EdicaoOrdemServicoScreen> {
   final TextEditingController _clienteController = TextEditingController();
   final TextEditingController _carroController = TextEditingController();
   final TextEditingController _funcionarioController = TextEditingController();
+  final TextEditingController _descricaoController = TextEditingController();
+  final TextEditingController _valorController = TextEditingController();
+  String? selectedFuncionarioNome;
 
   @override
   void initState() {
@@ -23,14 +27,8 @@ class _EdicaoOrdemServicoScreenState extends State<EdicaoOrdemServicoScreen> {
     _clienteController.text = widget.ordemServico.cliente;
     _carroController.text = widget.ordemServico.carro;
     _funcionarioController.text = widget.ordemServico.funcionario;
-  }
-
-  @override
-  void dispose() {
-    _clienteController.dispose();
-    _carroController.dispose();
-    _funcionarioController.dispose();
-    super.dispose();
+    _descricaoController.text = widget.ordemServico.descricao;
+    _valorController.text = widget.ordemServico.valor.toString();
   }
 
   void _atualizarOrdemServico() {
@@ -38,7 +36,8 @@ class _EdicaoOrdemServicoScreenState extends State<EdicaoOrdemServicoScreen> {
       'cliente': _clienteController.text,
       'carro': _carroController.text,
       'funcionario': _funcionarioController.text,
-      // Adicione aqui a lógica para atualizar outras informações da ordem de serviço
+      'descricao': _descricaoController.text,
+      'valor': double.parse(_valorController.text),
     }).then((_) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Ordem de serviço atualizada com sucesso.')));
@@ -67,9 +66,56 @@ class _EdicaoOrdemServicoScreenState extends State<EdicaoOrdemServicoScreen> {
               controller: _carroController,
               decoration: InputDecoration(labelText: 'Carro'),
             ),
+            StreamBuilder<QuerySnapshot>(
+              stream: firestore.collection('funcionarios').snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return CircularProgressIndicator();
+                List<DropdownMenuItem<String>> funcionarioItems = snapshot.data!.docs
+                    .map((doc) => DropdownMenuItem<String>(
+                          child: Text(doc['nome']),
+                          value: doc['nome'],
+                        ))
+                    .toList();
+                return Row(
+                  children: [
+                    Expanded(
+                      child: DropdownButton<String>(
+                        value: selectedFuncionarioNome,
+                        hint: Text('Selecione um Funcionário'),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedFuncionarioNome = value;
+                          });
+                        },
+                        items: funcionarioItems,
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => CadastroFuncionarioScreen()),
+                        );
+                      },
+                    ),
+                  ],
+                );
+              },
+            ),
+            if (selectedFuncionarioNome != null)
+              Text(
+                'Funcionário: ${selectedFuncionarioNome}',
+                style: TextStyle(fontSize: 16),
+              ),
             TextField(
-              controller: _funcionarioController,
-              decoration: InputDecoration(labelText: 'Funcionário'),
+              controller: _descricaoController,
+              decoration: InputDecoration(labelText: 'Descrição'),
+            ),
+            TextField(
+              controller: _valorController,
+              decoration: InputDecoration(labelText: 'Valor'),
+              keyboardType: TextInputType.number, // Adiciona o teclado numérico
             ),
             ElevatedButton(
               child: Text('Salvar Alterações'),

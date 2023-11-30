@@ -10,9 +10,10 @@ class CadastroOrdemServicoScreen extends StatefulWidget {
 class _CadastroOrdemServicoScreenState extends State<CadastroOrdemServicoScreen> {
   final TextEditingController clienteController = TextEditingController();
   final TextEditingController carroController = TextEditingController();
-  final TextEditingController funcionarioController = TextEditingController();
   final TextEditingController placaController = TextEditingController();
-  String? selectedFuncionarioId;
+  final TextEditingController descricaoController = TextEditingController();
+  final TextEditingController valorController = TextEditingController();
+  String? selectedFuncionarioNome;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
@@ -41,18 +42,18 @@ class _CadastroOrdemServicoScreenState extends State<CadastroOrdemServicoScreen>
                 List<DropdownMenuItem<String>> funcionarioItems = snapshot.data!.docs
                     .map((doc) => DropdownMenuItem<String>(
                           child: Text(doc['nome']),
-                          value: doc.id,
+                          value: doc['nome'],
                         ))
                     .toList();
                 return Row(
                   children: [
                     Expanded(
                       child: DropdownButton<String>(
-                        value: selectedFuncionarioId,
+                        value: selectedFuncionarioNome,
                         hint: Text('Selecione um Funcionário'),
                         onChanged: (value) {
                           setState(() {
-                            selectedFuncionarioId = value;
+                            selectedFuncionarioNome = value;
                           });
                         },
                         items: funcionarioItems,
@@ -71,19 +72,39 @@ class _CadastroOrdemServicoScreenState extends State<CadastroOrdemServicoScreen>
                 );
               },
             ),
+            if (selectedFuncionarioNome != null)
+              Text(
+                'Funcionário: ${selectedFuncionarioNome}',
+                style: TextStyle(fontSize: 16),
+              ),
             TextField(
               controller: placaController,
               decoration: InputDecoration(labelText: 'Placa'),
+            ),
+            TextField(
+              controller: descricaoController,
+              decoration: InputDecoration(labelText: 'Descrição'),
+            ),
+            TextField(
+              controller: valorController,
+              decoration: InputDecoration(labelText: 'Valor'),
+              keyboardType: TextInputType.number, // Adiciona o teclado numérico
             ),
             ElevatedButton(
               child: Text('Salvar Ordem de Serviço'),
               onPressed: () {
                 final String cliente = clienteController.text;
                 final String carro = carroController.text;
-                final String funcionario = funcionarioController.text;
+                final String funcionario = selectedFuncionarioNome ?? '';
                 final String placa = placaController.text;
-                if (cliente.isNotEmpty && carro.isNotEmpty && funcionario.isNotEmpty && placa.isNotEmpty) {
-                  salvarOrdemServico(cliente, carro, funcionario, placa, context);
+                final String descricao = descricaoController.text;
+                final double valor = double.parse(valorController.text);
+                if (cliente.isNotEmpty && carro.isNotEmpty && funcionario.isNotEmpty && placa.isNotEmpty && descricao.isNotEmpty && valor > 0) {
+                  salvarOrdemServico(cliente, carro, funcionario, placa, descricao, valor, context);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Por favor, preencha todos os campos')),
+                  );
                 }
               },
             ),
@@ -93,12 +114,14 @@ class _CadastroOrdemServicoScreenState extends State<CadastroOrdemServicoScreen>
     );
   }
 
-  void salvarOrdemServico(String cliente, String carro, String funcionario, String placa, BuildContext context) {
+  void salvarOrdemServico(String cliente, String carro, String funcionario, String placa, String descricao, double valor, BuildContext context) {
     Map<String, dynamic> novaOrdemServico = {
       'cliente': cliente,
       'carro': carro,
       'funcionario': funcionario,
       'placa': placa,
+      'descricao': descricao,
+      'valor': valor,
     };
     firestore.collection('ordens_servico').add(novaOrdemServico).then((_) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Ordem de serviço salva com sucesso.')));

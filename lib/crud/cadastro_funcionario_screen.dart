@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:primeiro_app/model/funcionario.dart'; 
+import 'package:primeiro_app/model/funcionario.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/services.dart'; // Importe esta biblioteca
 
 FirebaseDatabase database = FirebaseDatabase.instance;
 
@@ -33,6 +34,8 @@ class CadastroFuncionarioScreen extends StatelessWidget {
             TextField(
               controller: contatoController,
               decoration: InputDecoration(labelText: 'Contato do Funcionário'),
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly], 
+              keyboardType: TextInputType.phone,
             ),
             ElevatedButton(
               child: Text('Salvar Funcionário'),

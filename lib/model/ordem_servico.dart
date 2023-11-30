@@ -7,7 +7,8 @@ class OrdemServico {
   String carro;
   String funcionario;
   String placa;
-  
+  String descricao;
+  double valor;
 
   OrdemServico({
     required this.id,
@@ -15,7 +16,8 @@ class OrdemServico {
     required this.carro,
     required this.funcionario,
     required this.placa,
-    
+    required this.descricao,
+    required this.valor,
   });
 
   // Criando uma Ordem de Serviço a partir de um DocumentSnapshot
@@ -26,9 +28,10 @@ class OrdemServico {
       carro: snapshot['carro'] ?? '',
       funcionario: snapshot['funcionario'] ?? '',
       placa: snapshot['placa'] ?? '',
-       );
+      descricao: snapshot['descricao'] ?? '',
+      valor: (snapshot['valor'] ?? 0.0).toDouble(),
+    );
   }
-
 
   // Convertendo uma Ordem de Serviço para Map
   Map<String, dynamic> toMap() {
@@ -37,6 +40,8 @@ class OrdemServico {
       'carro': carro,
       'funcionario': funcionario,
       'placa': placa,
+      'descricao': descricao,
+      'valor': valor,
     };
   }
 }

@@ -19,7 +19,7 @@ class ListaOrdemServicoScreen extends StatelessWidget {
             return Text('Erro ao carregar a lista de ordens de serviço.');
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
 
           List<QueryDocumentSnapshot> docs = snapshot.data!.docs;
@@ -33,7 +33,8 @@ class ListaOrdemServicoScreen extends StatelessWidget {
                 carro: ordemServicoData['carro'],
                 funcionario: ordemServicoData['funcionario'],
                 placa: ordemServicoData['placa'],
-                
+                descricao: ordemServicoData['descricao'],
+                valor: ordemServicoData['valor'],
               );
               return ListTile(
                 title: Text(ordemServico.cliente),
@@ -43,7 +44,8 @@ class ListaOrdemServicoScreen extends StatelessWidget {
                     Text('Carro: ${ordemServico.carro}'),
                     Text('Funcionário: ${ordemServico.funcionario}'),
                     Text('Placa: ${ordemServico.placa}'),
-                    
+                    Text('Descrição: ${ordemServico.descricao}'),
+                    Text('Valor: R\$ ${ordemServico.valor}'),
                   ],
                 ),
                 trailing: Row(

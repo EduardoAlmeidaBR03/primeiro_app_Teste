@@ -131,7 +131,8 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () async {
                           try {
                             UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-                              email: "almeida@gmail.com",
+                              email: "almeida@gmail.com",       // email: emailController.text,
+                                                                 //password: passwordController.text,
                               password: "123456",
                             );
                             Navigator.pushReplacement(
