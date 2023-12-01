@@ -63,15 +63,21 @@ class CadastroClienteScreen extends StatelessWidget {
                 final String contato = contatoController.text;
                 final String endereco = enderecoController.text;
                 if (nome.isNotEmpty && cpf.isNotEmpty && contato.isNotEmpty && endereco.isNotEmpty) {
-                  try {
-                    await adicionarCliente(nome, cpf, contato, endereco);
+                  if (validarCPF(cpf)) {
+                    try {
+                      await adicionarCliente(nome, cpf, contato, endereco);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Cliente salvo com sucesso!')),
+                      );
+                      Navigator.pop(context);
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Erro ao salvar cliente: $e')),
+                      );
+                    }
+                  } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Cliente salvo com sucesso!')),
-                    );
-                    Navigator.pop(context);
-                  } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Erro ao salvar cliente: $e')),
+                      SnackBar(content: Text('CPF inválido. Por favor, insira um CPF válido')),
                     );
                   }
                 } else {
@@ -86,4 +92,50 @@ class CadastroClienteScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+
+bool validarCPF(String cpf) {
+  if (cpf.isEmpty) {
+    return false; // CPF em branco
+  }
+
+  // Remover caracteres não numéricos do CPF
+  cpf = cpf.replaceAll(RegExp(r'\D'), '');
+
+  if (cpf.length != 11) {
+    return false; // CPF com tamanho incorreto
+  }
+
+  // Verificar se todos os dígitos são iguais
+  if (RegExp(r'(\d)\1{10}').hasMatch(cpf)) {
+    return false; // CPF com todos os dígitos iguais
+  }
+
+  // Calcular o primeiro dígito verificador
+  var soma = 0;
+  for (var i = 0; i < 9; i++) {
+    soma += int.parse(cpf[i]) * (10 - i);
+  }
+  var digito1 = 11 - (soma % 11);
+  if (digito1 > 9) {
+    digito1 = 0;
+  }
+
+  // Calcular o segundo dígito verificador
+  soma = 0;
+  for (var i = 0; i < 10; i++) {
+    soma += int.parse(cpf[i]) * (11 - i);
+  }
+  var digito2 = 11 - (soma % 11);
+  if (digito2 > 9) {
+    digito2 = 0;
+  }
+
+  // Verificar se os dígitos verificadores estão corretos
+  if (int.parse(cpf[9]) != digito1 || int.parse(cpf[10]) != digito2) {
+    return false; // CPF inválido
+  }
+
+  return true; // CPF válido
 }

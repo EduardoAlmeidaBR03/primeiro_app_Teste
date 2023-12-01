@@ -7,6 +7,7 @@ import 'screens/clientes_screen.dart';
 import 'screens/funcionarios_screen.dart';
 import 'screens/carros_screen.dart';
 import 'screens/login.dart';
+import 'screens/servicos_arquivados_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:primeiro_app/firebase_options.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -46,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
     FuncionariosScreen(),
     CarrosScreen(),
     OrdemServicoScreen(),
+    ServicosArquivadosScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -80,6 +82,12 @@ class _MyHomePageState extends State<MyHomePage> {
           MaterialPageRoute(builder: (context) => OrdemServicoScreen()),
         );
         break;
+      case 'visualizar_servicos_arquivados':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ServicosArquivadosScreen()),
+        );
+        break;
     }
   }
 
@@ -109,6 +117,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   value: 'cadastro_ordem_servico',
                   child: Text('Cadastro de Ordens de Serviços'),
                 ),
+                PopupMenuItem(
+                value: 'visualizar_servicos_arquivados', // Adiciona a opção de visualizar serviços arquivados
+                child: Text('Visualizar Serviços Arquivados'),
+                ),
               ];
             },
           ),
@@ -126,12 +138,11 @@ class _MyHomePageState extends State<MyHomePage> {
           List<DocumentSnapshot> ordens = snapshot.data!.docs;
           return ListView.builder(
             itemCount: ordens.length,
-            itemBuilder: (context, index) {    
+            itemBuilder: (context, index) {
               var ordem = ordens[index];
               return Padding(
-                padding: const EdgeInsets.all(8.0),   
+                padding: const EdgeInsets.all(8.0),
                 child: Card(
-                  
                   child: ListTile(
                     title: Text('Carro: ${ordem['carro']}'),
                     subtitle: Column(
@@ -145,22 +156,28 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                    icon: Icon(Icons.close, color: Colors.red),
-                      onPressed: () {
-                      _excluirOrdemServico(index);
-                      },
-                      ),
+                          icon: Icon(Icons.close, color: Colors.red),
+                          onPressed: () {
+                            _excluirOrdemServico(index);
+                          },
+                        ),
+                        SizedBox(width: 8), // Adiciona um espaço entre os botões
+                        ElevatedButton( // Adiciona o botão "Arquivar"
+                          onPressed: () {
+                            //_arquivarOrdemServico(ordem.id); // Chama a função para arquivar a ordem de serviço
+                          },
+                          child: Text('Arquivar'),
+                        ),
                       ],
                     ),
                     leading: Text('Cliente: ${ordem['cliente']}'),
-                    onTap: () {        
+                    onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => ListaOrdemServicoScreen()),
                       );
                     },
-                 ),
-                 
+                  ),
                 ),
               );
             },
@@ -180,9 +197,22 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+
   void _excluirOrdemServico(int index) {
   FirebaseFirestore.instance.collection('ordens_servico').get().then((snapshot) {
     snapshot.docs[index].reference.delete();
   });
 }
 }
+
+
+void arquivarOrdemServico(String ordemId) {
+  FirebaseFirestore.instance.collection('ordens_servico').doc(ordemId).update({
+    'arquivada': true, 
+  }).then((value) {
+    print('Ordem de serviço arquivada com sucesso');
+  }).catchError((error) {
+    print('Erro ao arquivar ordem de serviço: $error');
+  });
+}
+
