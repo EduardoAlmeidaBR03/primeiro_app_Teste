@@ -7,7 +7,6 @@ import 'screens/clientes_screen.dart';
 import 'screens/funcionarios_screen.dart';
 import 'screens/carros_screen.dart';
 import 'screens/login.dart';
-import 'screens/servicos_arquivados_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:primeiro_app/firebase_options.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -47,7 +46,6 @@ class _MyHomePageState extends State<MyHomePage> {
     FuncionariosScreen(),
     CarrosScreen(),
     OrdemServicoScreen(),
-    ServicosArquivadosScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -82,12 +80,6 @@ class _MyHomePageState extends State<MyHomePage> {
           MaterialPageRoute(builder: (context) => OrdemServicoScreen()),
         );
         break;
-      case 'visualizar_servicos_arquivados':
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ServicosArquivadosScreen()),
-        );
-        break;
     }
   }
 
@@ -115,11 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 PopupMenuItem(
                   value: 'cadastro_ordem_servico',
-                  child: Text('Cadastro de Ordens de Serviços'),
-                ),
-                PopupMenuItem(
-                value: 'visualizar_servicos_arquivados', // Adiciona a opção de visualizar serviços arquivados
-                child: Text('Visualizar Serviços Arquivados'),
+                  child: Text('Ordens de Serviço'),
                 ),
               ];
             },
@@ -127,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('ordens_servico').snapshots(),
+        stream: FirebaseFirestore.instance.collection('ordens_servico').where('situacao', isEqualTo: 'Aberta').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -150,23 +138,18 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         Text('Placa: ${ordem['placa']}'),
                         Text('Funcionário: ${ordem['funcionario']}'),
+                        Text('Situação: ${ordem['situacao']}'),
                       ],
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        IconButton(
-                          icon: Icon(Icons.close, color: Colors.red),
+                        SizedBox(width: 8),
+                        ElevatedButton(
                           onPressed: () {
-                            _excluirOrdemServico(index);
+                            _finalizarOrdemServico(ordem.id);
                           },
-                        ),
-                        SizedBox(width: 8), // Adiciona um espaço entre os botões
-                        ElevatedButton( // Adiciona o botão "Arquivar"
-                          onPressed: () {
-                            //_arquivarOrdemServico(ordem.id); // Chama a função para arquivar a ordem de serviço
-                          },
-                          child: Text('Arquivar'),
+                          child: Text('Finalizar Ordem'),
                         ),
                       ],
                     ),
@@ -198,21 +181,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
-  void _excluirOrdemServico(int index) {
-  FirebaseFirestore.instance.collection('ordens_servico').get().then((snapshot) {
-    snapshot.docs[index].reference.delete();
-  });
+  void _finalizarOrdemServico(String ordemId) {
+    FirebaseFirestore.instance.collection('ordens_servico').doc(ordemId).update({
+      'situacao': 'Finalizada', 
+    }).then((value) {
+      print('Ordem de serviço finalizada com sucesso');
+    }).catchError((error) {
+      print('Erro ao finalizar ordem de serviço: $error');
+    });
+  }
 }
-}
-
-
-void arquivarOrdemServico(String ordemId) {
-  FirebaseFirestore.instance.collection('ordens_servico').doc(ordemId).update({
-    'arquivada': true, 
-  }).then((value) {
-    print('Ordem de serviço arquivada com sucesso');
-  }).catchError((error) {
-    print('Erro ao arquivar ordem de serviço: $error');
-  });
-}
-

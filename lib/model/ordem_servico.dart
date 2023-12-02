@@ -9,6 +9,8 @@ class OrdemServico {
   String placa;
   String descricao;
   double valor;
+  String situacao;
+  
 
   OrdemServico({
     required this.id,
@@ -18,6 +20,7 @@ class OrdemServico {
     required this.placa,
     required this.descricao,
     required this.valor,
+    required this.situacao
   });
 
   // Criando uma Ordem de Serviço a partir de um DocumentSnapshot
@@ -30,6 +33,7 @@ class OrdemServico {
       placa: snapshot['placa'] ?? '',
       descricao: snapshot['descricao'] ?? '',
       valor: (snapshot['valor'] ?? 0.0).toDouble(),
+      situacao: snapshot['situacao'] ?? '',
     );
   }
 
@@ -42,6 +46,7 @@ class OrdemServico {
       'placa': placa,
       'descricao': descricao,
       'valor': valor,
+      'situacao': situacao
     };
   }
 }

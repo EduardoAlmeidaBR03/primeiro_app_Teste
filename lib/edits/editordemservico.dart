@@ -19,25 +19,31 @@ class _EdicaoOrdemServicoScreenState extends State<EdicaoOrdemServicoScreen> {
   final TextEditingController _funcionarioController = TextEditingController();
   final TextEditingController _descricaoController = TextEditingController();
   final TextEditingController _valorController = TextEditingController();
+  final TextEditingController _placaController = TextEditingController();
   String? selectedFuncionarioNome;
+  String? selectedSituacao;
 
   @override
   void initState() {
     super.initState();
     _clienteController.text = widget.ordemServico.cliente;
     _carroController.text = widget.ordemServico.carro;
+    _placaController.text = widget.ordemServico.placa;
     _funcionarioController.text = widget.ordemServico.funcionario;
     _descricaoController.text = widget.ordemServico.descricao;
     _valorController.text = widget.ordemServico.valor.toString();
+    selectedSituacao = widget.ordemServico.situacao;
   }
 
   void _atualizarOrdemServico() {
     firestore.collection('ordens_servico').doc(widget.ordemServico.id).update({
       'cliente': _clienteController.text,
       'carro': _carroController.text,
+      'placa': _placaController.text,
       'funcionario': _funcionarioController.text,
       'descricao': _descricaoController.text,
       'valor': double.parse(_valorController.text),
+      'situacao': selectedSituacao, // Adiciona a situação ao atualizar a ordem de serviço
     }).then((_) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Ordem de serviço atualizada com sucesso.')));
@@ -65,6 +71,10 @@ class _EdicaoOrdemServicoScreenState extends State<EdicaoOrdemServicoScreen> {
             TextField(
               controller: _carroController,
               decoration: InputDecoration(labelText: 'Carro'),
+            ),
+             TextField(
+              controller: _placaController,
+              decoration: InputDecoration(labelText: 'Placa'),
             ),
             StreamBuilder<QuerySnapshot>(
               stream: firestore.collection('funcionarios').snapshots(),
@@ -108,6 +118,29 @@ class _EdicaoOrdemServicoScreenState extends State<EdicaoOrdemServicoScreen> {
                 'Funcionário: ${selectedFuncionarioNome}',
                 style: TextStyle(fontSize: 16),
               ),
+            Row(
+                children: [
+                  Expanded(
+                    child: DropdownButton<String>(
+                      value: selectedSituacao,
+                      hint: Text('Selecione a Situação'),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedSituacao = value;
+                        });
+                      },
+                      items: <String>['Aberta', 'Finalizada', 'Cancelada']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
+              ),
+
             TextField(
               controller: _descricaoController,
               decoration: InputDecoration(labelText: 'Descrição'),
