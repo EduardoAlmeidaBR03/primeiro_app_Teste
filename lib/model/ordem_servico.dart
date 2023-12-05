@@ -10,7 +10,7 @@ class OrdemServico {
   String descricao;
   double valor;
   String situacao;
-  
+  DateTime dataCriacao;
 
   OrdemServico({
     required this.id,
@@ -20,10 +20,10 @@ class OrdemServico {
     required this.placa,
     required this.descricao,
     required this.valor,
-    required this.situacao
+    required this.situacao,
+    required this.dataCriacao,
   });
 
-  // Criando uma Ordem de Serviço a partir de um DocumentSnapshot
   factory OrdemServico.fromSnapshot(DocumentSnapshot snapshot) {
     return OrdemServico(
       id: snapshot.id,
@@ -34,10 +34,10 @@ class OrdemServico {
       descricao: snapshot['descricao'] ?? '',
       valor: (snapshot['valor'] ?? 0.0).toDouble(),
       situacao: snapshot['situacao'] ?? '',
+      dataCriacao: (snapshot['dataCriacao'] as Timestamp).toDate(),
     );
   }
 
-  // Convertendo uma Ordem de Serviço para Map
   Map<String, dynamic> toMap() {
     return {
       'cliente': cliente,
@@ -46,7 +46,8 @@ class OrdemServico {
       'placa': placa,
       'descricao': descricao,
       'valor': valor,
-      'situacao': situacao
+      'situacao': situacao,
+      'dataCriacao': dataCriacao,
     };
   }
 }

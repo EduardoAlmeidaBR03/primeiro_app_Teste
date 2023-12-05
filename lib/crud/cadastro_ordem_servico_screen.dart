@@ -120,6 +120,7 @@ class _CadastroOrdemServicoScreenState extends State<CadastroOrdemServicoScreen>
   }
 
   void salvarOrdemServico(String cliente, String carro, String funcionario, String placa, String descricao, double valor, String situacao, BuildContext context) {
+    DateTime dataCriacao = DateTime.now(); // Adiciona a data de criação atual
     Map<String, dynamic> novaOrdemServico = {
       'cliente': cliente,
       'carro': carro,
@@ -127,7 +128,8 @@ class _CadastroOrdemServicoScreenState extends State<CadastroOrdemServicoScreen>
       'placa': placa,
       'descricao': descricao,
       'valor': valor,
-      'situacao': situacao, // Adicione a situação ao mapa
+      'situacao': situacao,
+      'dataCriacao': dataCriacao, // Adiciona a data de criação ao mapa
     };
     firestore.collection('ordens_servico').add(novaOrdemServico).then((_) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Ordem de serviço salva com sucesso.')));

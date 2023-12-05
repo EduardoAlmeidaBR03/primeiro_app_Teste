@@ -22,7 +22,7 @@ class _EdicaoOrdemServicoScreenState extends State<EdicaoOrdemServicoScreen> {
   final TextEditingController _placaController = TextEditingController();
   String? selectedFuncionarioNome;
   String? selectedSituacao;
-
+  
   @override
   void initState() {
     super.initState();
@@ -36,23 +36,24 @@ class _EdicaoOrdemServicoScreenState extends State<EdicaoOrdemServicoScreen> {
   }
 
   void _atualizarOrdemServico() {
-    firestore.collection('ordens_servico').doc(widget.ordemServico.id).update({
-      'cliente': _clienteController.text,
-      'carro': _carroController.text,
-      'placa': _placaController.text,
-      'funcionario': _funcionarioController.text,
-      'descricao': _descricaoController.text,
-      'valor': double.parse(_valorController.text),
-      'situacao': selectedSituacao, // Adiciona a situação ao atualizar a ordem de serviço
-    }).then((_) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Ordem de serviço atualizada com sucesso.')));
-      Navigator.of(context).pop();
-    }).catchError((error) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Erro ao atualizar ordem de serviço: $error')));
-    });
-  }
+  firestore.collection('ordens_servico').doc(widget.ordemServico.id).update({
+    'cliente': _clienteController.text,
+    'carro': _carroController.text,
+    'placa': _placaController.text,
+    'funcionario': _funcionarioController.text,
+    'descricao': _descricaoController.text,
+    'valor': double.parse(_valorController.text),
+    'situacao': selectedSituacao,
+    'dataCriacao': widget.ordemServico.dataCriacao, // Adiciona a data de criação
+  }).then((_) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Ordem de serviço atualizada com sucesso.')));
+    Navigator.of(context).pop();
+  }).catchError((error) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao atualizar ordem de serviço: $error')));
+  });
+}
 
   @override
   Widget build(BuildContext context) {
@@ -149,6 +150,12 @@ class _EdicaoOrdemServicoScreenState extends State<EdicaoOrdemServicoScreen> {
               controller: _valorController,
               decoration: InputDecoration(labelText: 'Valor'),
               keyboardType: TextInputType.number, // Adiciona o teclado numérico
+            ),
+            TextField(
+              readOnly: true,
+              controller: TextEditingController(
+                  text: widget.ordemServico.dataCriacao.toLocal().toString()),
+              decoration: InputDecoration(labelText: 'Data de Criação'),
             ),
             ElevatedButton(
               child: Text('Salvar Alterações'),

@@ -61,6 +61,7 @@ class _ListaOrdemServicoScreenState extends State<ListaOrdemServicoScreen> {
                 descricao: ordemServicoData['descricao'],
                 valor: ordemServicoData['valor'],
                 situacao: ordemServicoData['situacao'],
+                dataCriacao: ordemServicoData['dataCriacao'].toDate(), // Converte o Timestamp para DateTime
               );
               return ListTile(
                 title: Text(ordemServico.cliente),
@@ -72,7 +73,8 @@ class _ListaOrdemServicoScreenState extends State<ListaOrdemServicoScreen> {
                     Text('Placa: ${ordemServico.placa}'),
                     Text('Descrição: ${ordemServico.descricao}'),
                     Text('Valor: R\$ ${ordemServico.valor}'),
-                    Text('Situação:  ${ordemServico.situacao}'),
+                    Text('Situação: ${ordemServico.situacao}'),
+                    Text('Data de Criação: ${ordemServico.dataCriacao.toString()}'), // Exibe a data de criação
                   ],
                 ),
                 trailing: Row(
@@ -95,6 +97,12 @@ class _ListaOrdemServicoScreenState extends State<ListaOrdemServicoScreen> {
                         _excluirOrdemServico(docs[index].id, context);
                       },
                     ),
+                    IconButton(
+                      icon: Icon(Icons.check),
+                      onPressed: () {
+                        _atualizarSituacaoOrdemServico(docs[index].id, 'Finalizada', context);
+                      },
+                    ),
                   ],
                 ),
               );
@@ -110,6 +118,14 @@ class _ListaOrdemServicoScreenState extends State<ListaOrdemServicoScreen> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Ordem de serviço excluída com sucesso.')));
     }).catchError((error) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Erro ao excluir ordem de serviço: $error')));
+    });
+  }
+
+  void _atualizarSituacaoOrdemServico(String docId, String situacao, BuildContext context) {
+    firestore.collection('ordens_servico').doc(docId).update({'situacao': situacao}).then((_) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Situação da ordem de serviço atualizada com sucesso.')));
+    }).catchError((error) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Erro ao atualizar situação da ordem de serviço: $error')));
     });
   }
 }
