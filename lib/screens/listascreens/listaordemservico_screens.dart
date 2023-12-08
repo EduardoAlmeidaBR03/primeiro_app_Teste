@@ -61,7 +61,7 @@ class _ListaOrdemServicoScreenState extends State<ListaOrdemServicoScreen> {
                 descricao: ordemServicoData['descricao'],
                 valor: ordemServicoData['valor'],
                 situacao: ordemServicoData['situacao'],
-                dataCriacao: ordemServicoData['dataCriacao'].toDate(), // Converte o Timestamp para DateTime
+                dataCriacao: ordemServicoData['dataCriacao'].toDate(),
               );
               return ListTile(
                 title: Text(ordemServico.cliente),
@@ -74,7 +74,7 @@ class _ListaOrdemServicoScreenState extends State<ListaOrdemServicoScreen> {
                     Text('Descrição: ${ordemServico.descricao}'),
                     Text('Valor: R\$ ${ordemServico.valor}'),
                     Text('Situação: ${ordemServico.situacao}'),
-                    Text('Data de Criação: ${ordemServico.dataCriacao.toString()}'), // Exibe a data de criação
+                    Text('Data de Criação: ${ordemServico.dataCriacao.toString()}'), 
                   ],
                 ),
                 trailing: Row(

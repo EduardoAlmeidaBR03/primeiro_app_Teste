@@ -48,7 +48,6 @@ class ListaFuncionariosScreen extends StatelessWidget {
                     IconButton(
                       icon: Icon(Icons.edit),
                       onPressed: () {
-                        // Navegue para a tela de edição de funcionários
                         Navigator.push(
                           context,
                           MaterialPageRoute(

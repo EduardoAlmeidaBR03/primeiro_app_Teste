@@ -1,6 +1,4 @@
-// lib/cadastro_cliente_screen.dart
 import 'package:flutter/material.dart';
-//import 'package:primeiro_app/model/clientes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -26,7 +24,7 @@ class CadastroClienteScreen extends StatelessWidget {
   final TextEditingController cpfController = TextEditingController();
   final TextEditingController contatoController = TextEditingController();
   final TextEditingController enderecoController = TextEditingController();
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;  // Instância do Firestore
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;  
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +95,7 @@ class CadastroClienteScreen extends StatelessWidget {
 
 bool validarCPF(String cpf) {
   if (cpf.isEmpty) {
-    return false; // CPF em branco
+    return false; 
   }
 
   // Remover caracteres não numéricos do CPF
@@ -107,7 +105,7 @@ bool validarCPF(String cpf) {
     return false; // CPF com tamanho incorreto
   }
 
-  // Verificar se todos os dígitos são iguais
+
   if (RegExp(r'(\d)\1{10}').hasMatch(cpf)) {
     return false; // CPF com todos os dígitos iguais
   }
@@ -137,5 +135,5 @@ bool validarCPF(String cpf) {
     return false; // CPF inválido
   }
 
-  return true; // CPF válido
+  return true; 
 }

@@ -45,7 +45,7 @@ class _OrdemServicoScreenState extends State<OrdemServicoScreen> {
                       setState(() {});
                     },
                   ),
-                  SizedBox(width: 10), // Espaçamento entre os botões
+                  SizedBox(width: 10),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: const Color.fromARGB(255, 29, 43, 122), 

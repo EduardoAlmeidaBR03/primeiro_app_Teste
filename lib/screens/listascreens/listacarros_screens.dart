@@ -50,7 +50,6 @@ class ListaCarrosScreen extends StatelessWidget {
                     IconButton(
                       icon: Icon(Icons.edit),
                       onPressed: () {
-                        // Direciona para a tela de edição de carros
                         Navigator.push(
                           context,
                           MaterialPageRoute(

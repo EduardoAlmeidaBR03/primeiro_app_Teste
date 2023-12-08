@@ -1,7 +1,7 @@
-import 'dart:ui'; // Importe dart:ui para usar ImageFilter
+import 'dart:ui'; 
 import 'package:flutter/material.dart';
 import 'signup.dart';
-import 'package:primeiro_app/main.dart'; // Substitua pelo caminho correto
+import 'package:primeiro_app/main.dart'; 
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
@@ -52,18 +52,17 @@ class _LoginPageState extends State<LoginPage> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Imagem de Fundo
          Container(
-            margin: EdgeInsets.only(top: 250), // Adicionando um espaçamento superior de 40 pixels
+            margin: EdgeInsets.only(top: 250), 
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('images/jato.jpg'),
-                fit: BoxFit.contain, // Reduz a imagem proporcionalmente para caber no Container
+                fit: BoxFit.contain, 
               ),
             ),
           ),
 
-          // Aplica o desfoque na imagem de fundo quando um campo de texto é focado
+          
           if (_isFieldFocused)
             BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
@@ -71,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           Column(
             children: <Widget>[
-              SizedBox(height: 50), // Adicionando espaço acima dos campos de login
+              SizedBox(height: 50), 
               Padding(
                 padding: EdgeInsets.all(16.0),
                 child: SingleChildScrollView(
@@ -131,8 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () async {
                           try {
                             UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-                              email: "almeida@gmail.com",       // email: emailController.text,
-                                                                 //password: passwordController.text,
+                              email: "almeida@gmail.com",      
                               password: "123456",
                             );
                             Navigator.pushReplacement(

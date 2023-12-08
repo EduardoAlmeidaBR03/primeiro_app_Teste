@@ -10,7 +10,7 @@ class Carros {
 
   Carros({required this.id, required this.modelo, required this.marca, required this.cor, required this.placa});
 
-  // Criando um Carros a partir de um DocumentSnapshot
+
   factory Carros.fromSnapshot(DocumentSnapshot snapshot) {
     return Carros(
       id: snapshot.id,
@@ -21,7 +21,7 @@ class Carros {
     );
   }
 
-  // Convertendo um Carros para Map
+  
   Map<String, dynamic> toMap() {
     return {
       'modelo': modelo,

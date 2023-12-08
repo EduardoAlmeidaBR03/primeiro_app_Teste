@@ -54,11 +54,11 @@ class CadastroCarrosScreen extends StatelessWidget {
               onPressed: () async {
                 final String modelo = modeloController.text;
                 final String marca = marcaController.text;
-                final String cor = corController.text; // Obtendo a cor inserida
-                final String placa = placaController.text; // Obtendo a placa inserida
+                final String cor = corController.text; 
+                final String placa = placaController.text; 
                 if (modelo.isNotEmpty && marca.isNotEmpty && cor.isNotEmpty && placa.isNotEmpty) {
                   try {
-                    await adicionarCarro(modelo, marca, cor, placa); // Passando cor e placa para a função adicionarCarro
+                    await adicionarCarro(modelo, marca, cor, placa); 
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Carro salvo com sucesso!')),
                     );

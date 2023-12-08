@@ -9,7 +9,7 @@ class Funcionario {
 
   Funcionario({required this.id, required this.nome, required this.cargo, required this.contato});
 
-  // Criando um Funcionario a partir de um DocumentSnapshot
+  
   factory Funcionario.fromSnapshot(DocumentSnapshot snapshot) {
     return Funcionario(
       id: snapshot.id,
@@ -19,7 +19,6 @@ class Funcionario {
     );
   }
 
-  // Convertendo um Funcionario para Map
   Map<String, dynamic> toMap() {
     return {
       'nome': nome,

@@ -44,7 +44,7 @@ class _EdicaoOrdemServicoScreenState extends State<EdicaoOrdemServicoScreen> {
     'descricao': _descricaoController.text,
     'valor': double.parse(_valorController.text),
     'situacao': selectedSituacao,
-    'dataCriacao': widget.ordemServico.dataCriacao, // Adiciona a data de criação
+    'dataCriacao': widget.ordemServico.dataCriacao, 
   }).then((_) {
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Ordem de serviço atualizada com sucesso.')));
@@ -149,7 +149,7 @@ class _EdicaoOrdemServicoScreenState extends State<EdicaoOrdemServicoScreen> {
             TextField(
               controller: _valorController,
               decoration: InputDecoration(labelText: 'Valor'),
-              keyboardType: TextInputType.number, // Adiciona o teclado numérico
+              keyboardType: TextInputType.number, 
             ),
             TextField(
               readOnly: true,
